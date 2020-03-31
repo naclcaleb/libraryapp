@@ -11,6 +11,15 @@
             <a-menu-item key='1'>
                 Log Out
             </a-menu-item>
+            <a-menu-item key='2'>
+                <a href='https://github.com/highlowapp/highlowbackend'>Backend</a>
+            </a-menu-item>
+            <a-menu-item key='3'>
+                <a href='https://github.com/highlowapp/ios-app'>iOS</a>
+            </a-menu-item>
+            <a-menu-item key='4'>
+                <a href='https://github.com/highlowapp/android-app'>Android</a>
+            </a-menu-item>
         </a-menu>
     </a-layout-header>
 </template>
@@ -28,17 +37,17 @@ export default {
         }
     },
     mounted() {
-        console.log(isAuthenticated())
         this.isAuthenticated = isAuthenticated()
 
         eventBus.$on('authStateChanged', function() {
             this.isAuthenticated = isAuthenticated()
-            console.log(isAuthenticated())
         })
     },
     methods: {
         logOut: function(e) {
-            logOut()
+            if (e.key == 1) {
+                logOut()
+            }
         }
     }
 }

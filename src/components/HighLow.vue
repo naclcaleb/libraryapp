@@ -40,13 +40,11 @@ export default {
     created: function() {
 
         authenticatedReq('/admin/inspect_highlow/' + this.highlowid, 'GET', {}, result => {
-            console.log(result)
             this.high = result.high
             this.low = result.low
             this.highImg = result.high_image
             this.lowImg = result.low_image
 
-            console.log(this.highImg)
         })
 
     },

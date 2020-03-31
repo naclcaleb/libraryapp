@@ -78,7 +78,6 @@ export default {
         this.loading = true
 
         authenticatedReq('/admin/list_bug_reports', 'GET', {}, data => {
-            console.log(data)
             this.data = data.bug_reports
             this.loading = false
         })
@@ -106,7 +105,6 @@ export default {
             this.loading = true
             this.data = []
             authenticatedReq('/admin/list_bug_reports', 'GET', {}, data => {
-                console.log(data)
                 this.data = data.bug_reports
                 this.loading = false
             })

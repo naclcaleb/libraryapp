@@ -26,7 +26,6 @@ export default {
     },
     methods: {
         signInSubmit: function() {
-            console.log(this.password)
             signIn(this.username, this.password)
         }
     }

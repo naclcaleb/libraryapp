@@ -3,10 +3,7 @@ const axios = require('axios').default
 const $ = require('jquery')
 const eventBus = new Vue()
 
-function authenticate(authResponse) {
-    if (authResponse['error'] != undefined) {
-        return
-    }
+function authenticate(authResponse) {    
     localStorage.setItem('access', authResponse['access'])
     if ('refresh' in authResponse) {
         localStorage.setItem('refresh', authResponse['refresh'])
@@ -24,7 +21,6 @@ async function signIn(username, password, onSuccess) {
             password: password
         },
         success: function(res) {
-            console.log(res)
             authenticate(res)
             eventBus.$emit('authStateChanged')
         }
@@ -33,7 +29,8 @@ async function signIn(username, password, onSuccess) {
 
 
 async function authenticatedReq(url, method, params, onSuccess) {
-    const accessToken = localStorage.getItem('access')
+    let accessToken = localStorage.getItem('access')
+    
     $.ajax({
         url: 'https://api.gethighlow.com' + url, 
         method: method,
@@ -43,6 +40,9 @@ async function authenticatedReq(url, method, params, onSuccess) {
         },
         crossDomain: true,
         success: function(res) {
+            if (typeof res == "string") {
+                res = $.parseJSON(res)
+            }
             if (res['error'] == 'ERROR-INVALID-TOKEN') {
                 $.ajax({
                     url: 'https://api.gethighlow.com/admin/refresh_access',
@@ -51,6 +51,9 @@ async function authenticatedReq(url, method, params, onSuccess) {
                         refresh: localStorage.getItem('refresh')
                     },
                     success: function(result) {
+                        if (typeof result == "string") {
+                            result = $.parseJSON(result)
+                        }
                         if (result['error'] == 'ERROR-INVALID-REFRESH-TOKEN') {
                             logOut()
                         } else {

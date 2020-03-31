@@ -17,7 +17,6 @@ var metricsConfig = [
         dataQuery(callback) {
 
             authenticatedReq('/admin/total_users', 'GET', {}, result => {
-                console.log(result)
                 callback(result.total_users)
             })
 
@@ -34,7 +33,6 @@ var metricsConfig = [
         },
         dataQuery(callback) {
             authenticatedReq('/admin/get_analytics', 'GET', {}, result => {
-                console.log(result)
                 let datasets = [
                     {
                         label: "# of users",

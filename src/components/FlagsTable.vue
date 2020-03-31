@@ -78,7 +78,6 @@ export default {
         this.loading = true
 
         authenticatedReq('/admin/list_flags', 'GET', {}, data => {
-            console.log(data)
             this.data = data.flags
             this.loading = false
         })
@@ -106,7 +105,6 @@ export default {
             this.loading = true
             this.data = []
             authenticatedReq('/admin/list_flags', 'GET', {}, data => {
-                console.log(data)
                 this.data = data.flags
                 this.loading = false
             })

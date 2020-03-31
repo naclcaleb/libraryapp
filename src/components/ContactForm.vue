@@ -25,7 +25,6 @@ export default {
     created: function() {
         firebase.firestore().collection('contact_forms').doc(this.formID).get().then((snapshot) => {
             const data = snapshot.data()
-            console.log(snapshot)
             this.name = data.firstname + ' ' + data.lastname
             this.email = data.email
             this.message = data.message

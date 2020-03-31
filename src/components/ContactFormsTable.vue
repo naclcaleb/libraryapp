@@ -61,7 +61,6 @@ export default {
     },
     mounted() {
         this.loading = true
-        console.log("HITHERE")
         firebase.firestore().collection('contact_forms').where('read', '==', false).get().then((querySnapshot) => {
             let data = []
             querySnapshot.forEach((doc) => {
@@ -93,7 +92,6 @@ export default {
         },
         reload() {
             this.loading = true
-            console.log("HITHERE")
             firebase.firestore().collection('contact_forms').where('read', '==', false).get().then((querySnapshot) => {
                 let data = []
                 querySnapshot.forEach((doc) => {

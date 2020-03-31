@@ -47,7 +47,6 @@ export default {
 
         } else {
             authenticatedReq('/admin/inspect_user', 'GET', {}, result => {
-                console.log(result)
                 this.profileimage = result.profileimage
                 this.firstname = result.firstname
                 this.lastname = result.lastname
