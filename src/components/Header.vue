@@ -12,13 +12,13 @@
                 Log Out
             </a-menu-item>
             <a-menu-item key='2'>
-                <a href='https://github.com/highlowapp/highlowbackend'>Backend</a>
+                <a href='https://github.com/highlowapp/highlowbackend' target='_blank'>Backend</a>
             </a-menu-item>
             <a-menu-item key='3'>
-                <a href='https://github.com/highlowapp/ios-app'>iOS</a>
+                <a href='https://github.com/highlowapp/ios-app' target='_blank'>iOS</a>
             </a-menu-item>
             <a-menu-item key='4'>
-                <a href='https://github.com/highlowapp/android-app'>Android</a>
+                <a href='https://github.com/highlowapp/android-app' target='_blank'>Android</a>
             </a-menu-item>
         </a-menu>
     </a-layout-header>
