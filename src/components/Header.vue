@@ -8,11 +8,11 @@
             @click='logOut'
             v-if='isAuthenticated'
         >
+            <a-menu-item key='1'>
+                Log Out
+            </a-menu-item>
             <a-sub-menu>
                 <span slot='title'><a-icon type='github'/>GitHub Repos</span>
-                <a-menu-item key='1'>
-                    Log Out
-                </a-menu-item>
                 <a-menu-item key='2'>
                     <a href='https://github.com/highlowapp/highlowbackend' target='_blank'>Backend</a>
                 </a-menu-item>
