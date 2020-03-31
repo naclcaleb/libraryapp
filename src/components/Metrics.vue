@@ -32,7 +32,7 @@ var metricsConfig = [
             }
         },
         dataQuery(callback) {
-            authenticatedReq('/admin/get_analytics', 'GET', {}, result => {
+            authenticatedReq('/admin/get_analytics/20', 'GET', {}, result => {
                 let datasets = [
                     {
                         label: "# of users",
@@ -90,7 +90,7 @@ var metricsConfig = [
         type: 'number',
         label: 'Average friends per user',
         dataQuery(callback) {
-            authenticatedReq('/admin/get_analytics', 'GET', {}, result => {
+            authenticatedReq('/admin/get_analytics/20', 'GET', {}, result => {
                 const item = result.analytics[result.analytics.length - 1]
                 
                 callback( Math.round(item.num_friendships / item.num_users) )
@@ -101,7 +101,7 @@ var metricsConfig = [
         type: 'number',
         label: '% OAuth adoption',
         dataQuery(callback) {
-            authenticatedReq('/admin/get_analytics', 'GET', {}, result => {
+            authenticatedReq('/admin/get_analytics/20', 'GET', {}, result => {
                 const item = result.analytics[result.analytics.length - 1]
                 
                 callback( ((item.num_oauth_users / item.num_users) * 100).toFixed(1) + "%" )
