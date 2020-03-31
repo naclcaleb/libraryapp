@@ -12,16 +12,26 @@
                 Log Out
             </a-menu-item>
             <a-sub-menu>
-                <span slot='title'><a-icon type='github'/>GitHub Repos</span>
-                <a-menu-item key='2'>
-                    <a href='https://github.com/highlowapp/highlowbackend' target='_blank'>Backend</a>
-                </a-menu-item>
-                <a-menu-item key='3'>
-                    <a href='https://github.com/highlowapp/ios-app' target='_blank'>iOS</a>
-                </a-menu-item>
-                <a-menu-item key='4'>
-                    <a href='https://github.com/highlowapp/android-app' target='_blank'>Android</a>
-                </a-menu-item>
+                <span slot='title'><a-icon type='github'/>GitHub</span>
+                <a-menu-item-group title='Teams'>
+                    <a-menu-item key='7'>
+                        <a href='https://github.com/orgs/highlowapp/teams/frontend' target='_blank'>Frontend</a>
+                    </a-menu-item>
+                    <a-menu-item key='8'>
+                        <a href='https://github.com/orgs/highlowapp/teams/backend' target='_blank'>Backend</a>
+                    </a-menu-item>
+                </a-menu-item-group>
+                <a-menu-item-group title='Repos'>
+                    <a-menu-item key='2'>
+                        <a href='https://github.com/highlowapp/highlowbackend' target='_blank'>Backend</a>
+                    </a-menu-item>
+                    <a-menu-item key='3'>
+                        <a href='https://github.com/highlowapp/ios-app' target='_blank'>iOS</a>
+                    </a-menu-item>
+                    <a-menu-item key='4'>
+                        <a href='https://github.com/highlowapp/android-app' target='_blank'>Android</a>
+                    </a-menu-item>
+                </a-menu-item-group>
             </a-sub-menu>
             <a-menu-item key='5'>
                 <a href='https://play.google.com/apps/publish/?account=7751825972145461522#AppListPlace' target='_blank'>Google Play</a>
