@@ -62,6 +62,8 @@ var metricsConfig = [
 
                 let labels = []
 
+                result.analytics = result.analytics.reverse()
+
                 for (let i = 0; i < result.analytics.length; i++) {
                     const date = result.analytics[i].date
                     const dateObj = new Date(date)
