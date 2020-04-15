@@ -2,19 +2,31 @@ import Vue from 'vue'
 const axios = require('axios').default
 const $ = require('jquery')
 const eventBus = new Vue()
+import config from  './config'
 
-function authenticate(authResponse) {    
+function authenticate(authResponse) {   
+    console.log(authResponse) 
     localStorage.setItem('access', authResponse['access'])
     if ('refresh' in authResponse) {
         localStorage.setItem('refresh', authResponse['refresh'])
         localStorage.setItem('username', authResponse['username'])
     }
+
+    if ('permissionLevel' in authResponse) {
+        localStorage.setItem('permissionLevel', authResponse['permissionLevel'].toString())
+    }
     eventBus.$emit('authStateChanged')
+}
+
+function getPermissionLevel() {
+    const permissionLevel = localStorage.getItem('permissionLevel')
+    if (permissionLevel == undefined || permissionLevel == null) return 0;
+    return Number(permissionLevel);
 }
 
 async function signIn(username, password, onSuccess) {
     $.ajax({
-        url: 'https://api.gethighlow.com/admin/sign_in',
+        url: config.baseUrl + '/admin/sign_in',
         method: 'POST',
         data: {
             username: username,
@@ -32,7 +44,7 @@ async function authenticatedReq(url, method, params, onSuccess) {
     let accessToken = localStorage.getItem('access')
     
     $.ajax({
-        url: 'https://api.gethighlow.com' + url, 
+        url: config.baseUrl + url, 
         method: method,
         data: params,
         headers: {
@@ -45,7 +57,7 @@ async function authenticatedReq(url, method, params, onSuccess) {
             }
             if (res['error'] == 'ERROR-INVALID-TOKEN') {
                 $.ajax({
-                    url: 'https://api.gethighlow.com/admin/refresh_access',
+                    url: config.baseUrl + '/admin/refresh_access',
                     method: 'POST',
                     data: {
                         refresh: localStorage.getItem('refresh')
@@ -90,5 +102,6 @@ export {
     isAuthenticated,
     logOut,
     eventBus,
-    signIn
+    signIn,
+    getPermissionLevel
 }

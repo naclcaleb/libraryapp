@@ -6,6 +6,7 @@
           <Flags v-if="page === 'flags'" />
           <BugReports v-if="page === 'bugReports'"/>
           <ContactForms v-if="page === 'contactForms'"/>
+          <CompanyHighLow v-if='page === "companyHighLow"'/>
         </a-layout-content>
     </a-layout>
 
@@ -16,11 +17,12 @@ import Metrics from './Metrics'
 import Flags from './Flags'
 import BugReports from './BugReports'
 import ContactForms from './ContactForms'
+import CompanyHighLow from './CompanyHighLow'
 
 export default {
     name: "Content",
     props: ['page'],
-    components: { Metrics, Flags, BugReports, ContactForms }
+    components: { Metrics, Flags, BugReports, ContactForms, CompanyHighLow }
 }
 </script>
 
