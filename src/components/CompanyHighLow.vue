@@ -1,42 +1,55 @@
 <template>
     <div>
         <h1>Company High/Low</h1>
+        <a-form layout='vertical'>
+            <h3>High</h3>
+            <a-form-item label='High Image'>
+                <a-upload-dragger
+                    name='high'
+                    :multiple='false'
+                    @change='updateHighImage'>
+                    <p class="ant-upload-drag-icon">
+                        <a-icon type="inbox" />
+                    </p>
 
-        <h3>High</h3>
-        <a-upload-dragger
-            name='high'
-            :multiple='false'
-            @change='updateHighImage'>
-            <p class="ant-upload-drag-icon">
-                <a-icon type="inbox" />
-            </p>
+                    <p class="ant-upload-text">Click or drag file to this area to upload</p>
+                </a-upload-dragger>
+            </a-form-item>
 
-            <p class="ant-upload-text">Click or drag file to this area to upload</p>
-        </a-upload-dragger>
+            <a-form-item label='High Text'>
+                <a-textarea v-model='high' :rows='5' placeholder='High'/>
+            </a-form-item>
 
-        <a-input type='textarea' v-model='high'/>
+            <h3>Low</h3>
 
-        <h3>Low</h3>
-        <a-upload-dragger
-            name='low'
-            :multiple='false'
-            @change='updateLowImage'>
-            <p class="ant-upload-drag-icon">
-                <a-icon type="inbox" />
-            </p>
+            <a-form-item label='Low Image'>
+                <a-upload-dragger
+                    name='low'
+                    :multiple='false'
+                    @change='updateLowImage'>
+                    <p class="ant-upload-drag-icon">
+                        <a-icon type="inbox" />
+                    </p>
 
-            <p class="ant-upload-text">Click or drag file to this area to upload</p>
-        </a-upload-dragger>
+                    <p class="ant-upload-text">Click or drag file to this area to upload</p>
+                </a-upload-dragger>
+            </a-form-item>
 
-        <a-input type='textarea' v-model='low'/>
-        <a-popconfirm
-            title='Ready to submit?'
-            @confirm='submitForm'
-            okText='Yes!'
-            cancelText='No, not yet'
-        >
-            <a-button type='primary'>Submit</a-button>
-        </a-popconfirm>
+            <a-form-item label='Low Text'>
+                <a-textarea v-model='low' :rows='5' placeholder='Low'/>
+            </a-form-item>
+
+            <a-form-item>
+                <a-popconfirm
+                    title='Ready to submit?'
+                    @confirm='submitForm'
+                    okText='Yes!'
+                    cancelText='No, not yet'
+                >
+                    <a-button type='primary'>Submit</a-button>
+                </a-popconfirm>
+            </a-form-item>
+        </a-form>
     </div>
 </template>
 
