@@ -5,7 +5,6 @@ const eventBus = new Vue()
 import config from  './config'
 
 function authenticate(authResponse) {   
-    console.log(authResponse) 
     localStorage.setItem('access', authResponse['access'])
     if ('refresh' in authResponse) {
         localStorage.setItem('refresh', authResponse['refresh'])
@@ -66,11 +65,56 @@ async function authenticatedReq(url, method, params, onSuccess) {
                         if (typeof result == "string") {
                             result = $.parseJSON(result)
                         }
+                        console.log(result)
                         if (result['error'] == 'ERROR-INVALID-REFRESH-TOKEN') {
                             logOut()
                         } else {
                             authenticate(result)
                             authenticatedReq(url, method, params, onSuccess)
+                        }
+                    }
+                })
+            } else {
+                onSuccess(res)
+            }
+        }
+    })
+}
+
+async function authenticatedReqMultipart(url, method, formData, onSuccess) {
+    let accessToken = localStorage.getItem('access')
+    
+    $.ajax({
+        url: config.baseUrl + url, 
+        method: method,
+        data: formData,
+        processData: false,
+        contentType: false,
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        },
+        crossDomain: true,
+        success: function(res) {
+            if (typeof res == "string") {
+                res = $.parseJSON(res)
+            }
+            if (res['error'] == 'ERROR-INVALID-TOKEN') {
+                $.ajax({
+                    url: config.baseUrl + '/admin/refresh_access',
+                    method: 'POST',
+                    data: {
+                        refresh: localStorage.getItem('refresh')
+                    },
+                    success: function(result) {
+                        if (typeof result == "string") {
+                            result = $.parseJSON(result)
+                        }
+                        console.log(result)
+                        if (result['error'] == 'ERROR-INVALID-REFRESH-TOKEN') {
+                            logOut()
+                        } else {
+                            authenticate(result)
+                            authenticatedReqMultipart(url, method, params, onSuccess)
                         }
                     }
                 })
@@ -97,11 +141,17 @@ function logOut() {
     eventBus.$emit('authStateChanged')
 }
 
+function notEmpty(val) {
+    return val != null && val != undefined
+}
+
 export {
     authenticatedReq,
+    authenticatedReqMultipart,
     isAuthenticated,
     logOut,
     eventBus,
     signIn,
-    getPermissionLevel
+    getPermissionLevel,
+    notEmpty
 }

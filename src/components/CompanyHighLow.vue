@@ -29,42 +29,63 @@
         </a-upload-dragger>
 
         <a-input type='textarea' v-model='low'/>
-
-        <a-button @on:click='submit' type='primary'>Submit</a-button>
+        <a-popconfirm
+            title='Ready to submit?'
+            @confirm='submitForm'
+            okText='Yes!'
+            cancelText='No, not yet'
+        >
+            <a-button type='primary'>Submit</a-button>
+        </a-popconfirm>
     </div>
 </template>
 
 <script>
 import config from '../config.js'
-import { authenticatedReq } from '../helpers'
+import { authenticatedReq, authenticatedReqMultipart, notEmpty } from '../helpers'
 
 export default {
     name: 'CompanyHighLow',
     components: {  },
     data() {
         return {
-            high: undefined,
-            low: undefined,
-            highImage: undefined,
-            lowImage: undefined
+            high: null,
+            low: null,
+            highImage: null,
+            lowImage: null
         }
     },
     methods: {
         updateHighImage(info) {
-            this.highImage = info.file
+            this.highImage = info.file.originFileObj
         },
         updateLowImage(info) {
-            this.lowImage = info.file
+            this.lowImage = info.file.originFileObj
         },
-        submit() {
+        submitForm() {
             let formData = new FormData();
-            formData.append('high', this.highImage)
-            formData.append('low', this.lowImage)
-            
-            formData.append('high', this.high)
-            formData.append('low', this.low)
 
-            
+            if (notEmpty(this.highImage)) {
+                formData.append('high_image', this.highImage)
+            }
+            if (notEmpty(this.lowImage)) {
+                formData.append('low_image', this.lowImage)
+            }
+
+            if (notEmpty(this.high)) {
+                formData.append('high', this.high)
+            }
+            if (notEmpty(this.low)) {
+                formData.append('low', this.low)
+            }
+
+            authenticatedReqMultipart('/admin/createCompanyHighLow', 'POST', formData, (res) => {
+                if ('error' in res) {
+                    this.$message.error(`Error: ${error}`)
+                } else {
+                    this.$message.success('Successfully created High/Low')
+                }
+            })
         }
     }
 }
