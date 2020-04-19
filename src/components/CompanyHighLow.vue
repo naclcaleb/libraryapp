@@ -92,6 +92,16 @@ export default {
                 formData.append('low', this.low)
             }
 
+            var date = new Date();
+            var dateStr;
+
+            //debug
+            //date.setDate(date.getDate() - 60);
+
+            dateStr = date.getFullYear() + '-' + ('0' + (date.getMonth()+1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+
+            formData.append('date', dateStr)
+
             authenticatedReqMultipart('/admin/createCompanyHighLow', 'POST', formData, (res) => {
                 if ('error' in res) {
                     this.$message.error(`Error: ${error}`)

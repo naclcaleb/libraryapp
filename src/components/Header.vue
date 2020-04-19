@@ -7,7 +7,7 @@
             theme='dark'
             @click='logOut'
             v-if='isAuthenticated'
-            selectable='false'
+            :selectable='false'
         >
             <a-menu-item key='1'>
                 Log Out
