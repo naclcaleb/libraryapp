@@ -4,16 +4,10 @@ const $ = require('jquery')
 const eventBus = new Vue()
 import config from  './config'
 
-function authenticate(authResponse) {   
-    localStorage.setItem('access', authResponse['access'])
-    if ('refresh' in authResponse) {
-        localStorage.setItem('refresh', authResponse['refresh'])
-        localStorage.setItem('username', authResponse['username'])
-    }
-
-    if ('permissionLevel' in authResponse) {
-        localStorage.setItem('permissionLevel', authResponse['permissionLevel'].toString())
-    }
+function authenticate(authResponse) {
+    localStorage.setItem('token', authResponse['token'])
+    localStorage.setItem('libraryId', authResponse['libraryId'])
+    
     eventBus.$emit('authStateChanged')
 }
 
@@ -25,13 +19,14 @@ function getPermissionLevel() {
 
 async function signIn(username, password, onSuccess) {
     $.ajax({
-        url: config.baseUrl + '/admin/sign_in',
+        url: config.baseUrl + '/signin',
         method: 'POST',
         data: {
-            username: username,
+            name: username,
             password: password
         },
         success: function(res) {
+            console.log(res)
             authenticate(res)
             eventBus.$emit('authStateChanged')
         }
@@ -40,40 +35,21 @@ async function signIn(username, password, onSuccess) {
 
 
 async function authenticatedReq(url, method, params, onSuccess) {
-    let accessToken = localStorage.getItem('access')
-    
+    let accessToken = localStorage.getItem('token')
     $.ajax({
         url: config.baseUrl + url, 
         method: method,
         data: params,
         headers: {
-            'Authorization': 'Bearer ' + accessToken
+            'Authorization': accessToken
         },
         crossDomain: true,
         success: function(res) {
             if (typeof res == "string") {
                 res = $.parseJSON(res)
             }
-            if (res['error'] == 'ERROR-INVALID-TOKEN') {
-                $.ajax({
-                    url: config.baseUrl + '/admin/refresh_access',
-                    method: 'POST',
-                    data: {
-                        refresh: localStorage.getItem('refresh')
-                    },
-                    success: function(result) {
-                        if (typeof result == "string") {
-                            result = $.parseJSON(result)
-                        }
-                        console.log(result)
-                        if (result['error'] == 'ERROR-INVALID-REFRESH-TOKEN') {
-                            logOut()
-                        } else {
-                            authenticate(result)
-                            authenticatedReq(url, method, params, onSuccess)
-                        }
-                    }
-                })
+            if (res['error'] == 'invalid-token') {
+                logOut()
             } else {
                 onSuccess(res)
             }
@@ -82,7 +58,7 @@ async function authenticatedReq(url, method, params, onSuccess) {
 }
 
 async function authenticatedReqMultipart(url, method, formData, onSuccess) {
-    let accessToken = localStorage.getItem('access')
+    let accessToken = localStorage.getItem('token')
     
     $.ajax({
         url: config.baseUrl + url, 
@@ -91,33 +67,15 @@ async function authenticatedReqMultipart(url, method, formData, onSuccess) {
         processData: false,
         contentType: false,
         headers: {
-            'Authorization': 'Bearer ' + accessToken
+            'Authorization': accessToken
         },
         crossDomain: true,
         success: function(res) {
             if (typeof res == "string") {
                 res = $.parseJSON(res)
             }
-            if (res['error'] == 'ERROR-INVALID-TOKEN') {
-                $.ajax({
-                    url: config.baseUrl + '/admin/refresh_access',
-                    method: 'POST',
-                    data: {
-                        refresh: localStorage.getItem('refresh')
-                    },
-                    success: function(result) {
-                        if (typeof result == "string") {
-                            result = $.parseJSON(result)
-                        }
-                        console.log(result)
-                        if (result['error'] == 'ERROR-INVALID-REFRESH-TOKEN') {
-                            logOut()
-                        } else {
-                            authenticate(result)
-                            authenticatedReqMultipart(url, method, params, onSuccess)
-                        }
-                    }
-                })
+            if (res['error'] == 'invalid-token') {
+                logOut()
             } else {
                 onSuccess(res)
             }
@@ -126,7 +84,7 @@ async function authenticatedReqMultipart(url, method, formData, onSuccess) {
 }
 
 function isAuthenticated() {
-    if (localStorage.getItem('access') != undefined && localStorage.getItem('access') != null) {
+    if (localStorage.getItem('token') != undefined && localStorage.getItem('token') != null) {
         return true
     }
     return false
@@ -134,15 +92,17 @@ function isAuthenticated() {
 
 
 function logOut() {
-    localStorage.removeItem('refresh')
-    localStorage.removeItem('access')
-    localStorage.removeItem('username')
+    localStorage.removeItem('token')
 
     eventBus.$emit('authStateChanged')
 }
 
 function notEmpty(val) {
     return val != null && val != undefined
+}
+
+function libraryId() {
+    return localStorage.getItem('libraryId')
 }
 
 export {
@@ -153,5 +113,6 @@ export {
     eventBus,
     signIn,
     getPermissionLevel,
-    notEmpty
+    notEmpty,
+    libraryId
 }

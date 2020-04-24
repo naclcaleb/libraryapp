@@ -1,44 +1,17 @@
 <template>
     <a-layout-header class="header">
-        <img src="../assets/Logo-Triangles.png" class="logo" />
+        <a-icon type='read' id = 'logo'/>
+        <h1>Library</h1>
         <a-menu
             mode="horizontal"
             :style="{ lineHeight: '64px' }"
-            theme='dark'
+            theme='light'
             @click='logOut'
             v-if='isAuthenticated'
             :selectable='false'
         >
             <a-menu-item key='1'>
                 Log Out
-            </a-menu-item>
-            <a-sub-menu>
-                <span slot='title'><a-icon type='github'/>GitHub</span>
-                <a-menu-item-group title='Teams'>
-                    <a-menu-item key='7'>
-                        <a href='https://github.com/orgs/highlowapp/teams/frontend' target='_blank'>Frontend</a>
-                    </a-menu-item>
-                    <a-menu-item key='8'>
-                        <a href='https://github.com/orgs/highlowapp/teams/backend' target='_blank'>Backend</a>
-                    </a-menu-item>
-                </a-menu-item-group>
-                <a-menu-item-group title='Repos'>
-                    <a-menu-item key='2'>
-                        <a href='https://github.com/highlowapp/highlowbackend' target='_blank'>Backend</a>
-                    </a-menu-item>
-                    <a-menu-item key='3'>
-                        <a href='https://github.com/highlowapp/ios-app' target='_blank'>iOS</a>
-                    </a-menu-item>
-                    <a-menu-item key='4'>
-                        <a href='https://github.com/highlowapp/android-app' target='_blank'>Android</a>
-                    </a-menu-item>
-                </a-menu-item-group>
-            </a-sub-menu>
-            <a-menu-item key='5'>
-                <a href='https://play.google.com/apps/publish/?account=7751825972145461522#AppListPlace' target='_blank'>Google Play</a>
-            </a-menu-item>
-            <a-menu-item key='6'>
-                <a href='https://console.cloud.google.com/home/dashboard?project=highlow' target='_blank'>Google Cloud</a>
             </a-menu-item>
 
         </a-menu>
@@ -79,11 +52,17 @@ export default {
     .header {
         display: flex;
         align-items: center;
+        background: #26a69a;
     }
 
-    .logo {
-        width: 50px;
-        height: 50px;
-        float: left;
+    h1 {
+        margin-top: 6px;
+        color: white;
+    }
+
+    #logo {
+        color: white;
+        font-size: 30px;
+        margin-right: 20px;
     }
 </style>

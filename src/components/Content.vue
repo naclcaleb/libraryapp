@@ -2,7 +2,7 @@
     
     <a-layout style="padding: 0 24px 24px">
         <a-layout-content :style="{ padding: '24px', margin: 0, minHeight: '280px' }">
-          <Metrics v-if="page === 'metrics'"/>
+          <Metrics v-if="page === 'mybooks'"/>
           <Flags v-if="page === 'flags'" />
           <BugReports v-if="page === 'bugReports'"/>
           <ContactForms v-if="page === 'contactForms'"/>

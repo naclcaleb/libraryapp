@@ -3,15 +3,12 @@
       <a-layout-sider theme="light" collapsible width="200" style="background: #fff;">
         <a-menu
           mode="inline"
-          :defaultSelectedKeys="['metrics']"
+          :defaultSelectedKeys="['mybooks']"
           :style="{ height: '100%', borderRight: 0 }"
           v-on:select="updatePage"
         >
-          <a-menu-item key="metrics"><a-icon type='pie-chart'/><span>Metrics</span></a-menu-item>
-          <a-menu-item key="flags"><a-icon type='flag'/><span>Flags</span></a-menu-item>
-          <a-menu-item key="bugReports"><a-icon type='bug'/><span>Bug Reports</span></a-menu-item>
-          <a-menu-item key="contactForms"><a-icon type='form'/><span>Contact Forms</span></a-menu-item>
-          <a-menu-item key='companyHighLow' v-if='permissionLevel == 100'><a-icon type='align-left'/><span>Company High/Low</span></a-menu-item>
+          <a-menu-item key="mybooks"><a-icon type='book'/><span>My Books</span></a-menu-item>
+          <a-menu-item key="allbooks"><a-icon type='read'/><span>All Books</span></a-menu-item>
         </a-menu>
       </a-layout-sider>
       <Content id="content" :page="page"/>
@@ -27,7 +24,7 @@ export default {
     components: { Content },
     data() {
         return {
-            page: 'metrics',
+            page: 'mybooks',
             permissionLevel: 0
         }
     },
